@@ -2,11 +2,9 @@ import http.client
 import json
 import sys
 sys.path.append('../Additional')
-from flask import jsonify, Flask, current_app, request
+from flask import jsonify, Flask, current_app
 from user import User
 from Message import Message
-from types import SimpleNamespace
-
 app = Flask(__name__)
 
 # TODO: сделать класс Message, поля класса: sender, receiver, message
@@ -24,28 +22,24 @@ def enterOnline(sender):
     json_data = json.dumps(sender)
     connection.request('POST', '/connect', json_data, headers)
 
-@app.route('/message', methods=['POST'])
-def receiveMessage():
-    message = Message()
-    x = json.loads(request.json, object_hook=lambda d: SimpleNamespace(**d))
-    message.setText(x._Message__text)
-    message.setReceiver(x._Message__receiver)
-    message.setSender(x._Message__sender)
-    print(message.getReceiver(), message.getSender(), message.getText())
 
 
 # TEST ===============================================================================
 
-arros = User()
-arros.setLogin('arros')
-arros.setPort('8365')
+# arros = User()
+# arros.setLogin('arros')
+# arros.setPort('8365')
 gorshok = Message()
 gorshok.setText('arr')
-gorshok.setSender('arros')
-gorshok.setReceiver('rec')
+gorshok.setSender('uu')
+gorshok.setReceiver('arros')
+
+uu = User()
+uu.setLogin('uu')
+uu.setPort('8366')
 
 
 with app.app_context():
-    enterOnline(json.dumps(arros.__dict__))
-    # sendMessage(json.dumps(gorshok.__dict__))
-app.run(port= 8365)
+    enterOnline(json.dumps(uu.__dict__))
+    sendMessage(json.dumps(gorshok.__dict__))
+app.run(port= 8366)

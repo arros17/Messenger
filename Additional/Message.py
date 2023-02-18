@@ -1,7 +1,16 @@
+import json
 class Message:
     __sender = ''
     __receiver = ''
     __text = ''
+    #
+    # def __init__(self, sender, receiver, text):
+    #     self.__sender = sender
+    #     self.__receiver = receiver
+    #     self.__text = text
+    def toJSON(self):
+        return json.dump(fp=self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
     def getSender(self):
         return self.__sender
