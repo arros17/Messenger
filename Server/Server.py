@@ -10,6 +10,7 @@ from Message import Message
 app = Flask(__name__)   # Инстанцирование класса приложения Flask
 db = UserList()
 
+# TODO: обработка сообщения для оффлайн получателя
 @app.route('/msg', methods=['POST'])
 def redirectMessage():
     if not request.json:
@@ -22,19 +23,17 @@ def redirectMessage():
     # print(message.getReceiver(), message.getSender(), message.getText())
     if db.findUserByLogin(message.getReceiver()):
         sendMessage(message)
-        return jsonify(), 200, print(db.findUserByLogin(message.getReceiver()))
+        return jsonify(), 200
     else:
         return jsonify('User ' + message.getReceiver() + ' is not online'), 200
 @app.route('/connect', methods=['POST'])
 def userConnected():
     user = User()
     # user.setLogin(request.json['login'])
-    print(request.json)
     x = json.loads(request.json, object_hook=lambda d: SimpleNamespace(**d))
     user.setLogin(x._User__login)
     user.setPort(x._User__port)
     user.setIp(request.remote_addr)
-    print(user.getIp())
     saveUser(user)
 
     return jsonify(), 200
@@ -42,6 +41,7 @@ def userConnected():
 def userDisconnect(user):
     db.delete(user)
 
+# TODO: обработка ошибки 400
 def sendMessage(message):
     user = db.findUserByLogin(message.getReceiver())
     connection = http.client.HTTPConnection(user.getIp(), user.getPort(), timeout=10)
