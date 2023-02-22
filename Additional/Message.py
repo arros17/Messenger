@@ -9,7 +9,7 @@ class Message:
     #     self.__receiver = receiver
     #     self.__text = text
     def toJSON(self):
-        return json.dump(fp=self, default=lambda o: o.__dict__,
+        return json.dumps(obj=self, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4)
 
     def getSender(self):

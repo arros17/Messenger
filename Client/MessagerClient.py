@@ -27,11 +27,21 @@ def enterOnline(sender):
 @app.route('/message', methods=['POST'])
 def receiveMessage():
     message = Message()
-    x = json.loads(request.json, object_hook=lambda d: SimpleNamespace(**d))
+    print()
+    print()
+    print()
+    print(request.json)
+    print(type(request.json))
+    print()
+    print()
+    print()
+    jj = json.dumps(request.json)
+    x = json.loads(jj, object_hook=lambda d: SimpleNamespace(**d))
     message.setText(x._Message__text)
     message.setReceiver(x._Message__receiver)
     message.setSender(x._Message__sender)
     print(message.getReceiver(), message.getSender(), message.getText())
+    return jsonify(), 200
 
 
 # TEST ===============================================================================

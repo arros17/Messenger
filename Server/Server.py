@@ -2,7 +2,7 @@ import json
 from types import SimpleNamespace
 import http.client
 import sys
-sys.path.append('../Additional')
+sys.path.append('..\\Additional')
 from flask import Flask, request, abort, jsonify
 from UserList import UserList
 from user import User
