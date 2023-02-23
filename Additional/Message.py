@@ -2,7 +2,7 @@ import json
 class Message:
     __sender = ''
     # TODO: сделать массивом
-    __receiver = ''
+    __receivers = []
     __text = ''
     #
     # def __init__(self, sender, receiver, text):
@@ -17,7 +17,7 @@ class Message:
         return self.__sender
 
     def getReceiver(self):
-        return self.__receiver
+        return self.__receivers
 
     def getText(self):
         return self.__text
@@ -25,8 +25,11 @@ class Message:
     def setSender(self, sender):
         self.__sender = sender
 
-    def setReceiver(self, receiver):
-        self.__receiver = receiver
+    def setReceiver(self, receivers):
+        self.__receivers = receivers
 
     def setText(self, text):
         self.__text = text
+
+    def addReceiver(self, receiver):
+        self.__receivers.append(receiver)

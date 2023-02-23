@@ -2,25 +2,39 @@ import http.client
 import json
 import sys
 sys.path.append('../Additional')
-from flask import jsonify, Flask, current_app
+from flask import jsonify, Flask, current_app, request
 from user import User
 from Message import Message
+from types import SimpleNamespace
+
 app = Flask(__name__)
 
-# TODO: сделать класс Message, поля класса: sender, receiver, message
-# TODO: переделать по образу и подобию enterOnline;
+
 def sendMessage(message):
     connection = http.client.HTTPConnection('localhost', 5000, timeout=10)
     headers = {'Content-type': 'application/json'}
     json_data = json.dumps(message)
     connection.request('POST', '/msg', json_data, headers)
-    # response = connection.getresponse()
+    response = connection.getresponse()
+    print(response)
+
 
 def enterOnline(sender):
     connection = http.client.HTTPConnection('localhost', 5000, timeout=10)
     headers = {'Content-type': 'application/json'}
     json_data = json.dumps(sender)
     connection.request('POST', '/connect', json_data, headers)
+
+@app.route('/message', methods=['POST'])
+def receiveMessage():
+    message = Message()
+    j = json.dumps(request.json)
+    x = json.loads(j, object_hook=lambda d: SimpleNamespace(**d))
+    message.setText(x._Message__text)
+    message.setReceiver(x._Message__receiver)
+    message.setSender(x._Message__sender)
+    print(message.getReceiver(), message.getSender(), message.getText())
+    return jsonify(), 200
 
 
 
