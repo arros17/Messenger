@@ -7,11 +7,11 @@ class UndeliveredMessages:
     def setUndeliveredMessages(self, m):
         self.__m = m
 
-    def saveUndeliveredMessage(self, message):
-        if message.getReceiver() in self.__m:
-            self.__m[message.getReceiver()].append(message)
+    def saveUndeliveredMessage(self, message, receiver):
+        if receiver in self.__m:
+            self.__m[receiver].append(message)
         else:
-            self.__m[message.getReceiver()] = [message]
+            self.__m[receiver] = [message]
 
     def getMessagesForReceiver(self, receiver):
         if receiver in self.__m:

@@ -19,15 +19,18 @@ def redirectMessage():
     message = Message()
     x = json.loads(request.json, object_hook=lambda d: SimpleNamespace(**d))
     message.setText(x._Message__text)
-    message.setReceiver(x._Message__receiver)
+    message.setReceivers(x._Message__receivers)
     message.setSender(x._Message__sender)
     # print(message.getReceiver(), message.getSender(), message.getText())
-    if db.findUserByLogin(message.getReceiver()):
-        sendMessage(message)
-        return jsonify(), 200
-    else:
-        undeliveredMessages.saveUndeliveredMessage(message)
-        return jsonify('User ' + message.getReceiver() + ' is not online'), 200
+    for i in range(len(message.getReceivers())):
+        if db.findUserByLogin(message.getReceivers()[i]):
+            sendMessage(message, message.getReceivers()[i])
+            print(undeliveredMessages.getUndeliveredMessages())
+        else:
+            undeliveredMessages.saveUndeliveredMessage(message, message.getReceivers()[i])
+            print(undeliveredMessages.getUndeliveredMessages())
+    return jsonify(), 200
+
 
 @app.route('/connect', methods=['POST'])
 def userConnected():
@@ -40,9 +43,9 @@ def userConnected():
     saveUser(user)
     mes = undeliveredMessages.getMessagesForReceiver(user.getLogin())
     mes.reverse()
-    # print(mes)
+    print(mes)
     while len(mes) != 0:
-        sendMessage(mes.pop())
+        sendMessage(mes.pop(), user.getLogin())
 
     return jsonify(), 200
 
@@ -53,15 +56,15 @@ def userDisconnect():
 
 
 
-def sendMessage(message):
-    user = db.findUserByLogin(message.getReceiver())
+def sendMessage(message, receiver):
+    user = db.findUserByLogin(receiver)
     connection = http.client.HTTPConnection(user.getIp(), user.getPort(), timeout=10)
     headers = {'Content-type': 'application/json'}
     json_data = message.toJSON()
     try:
         connection.request('POST', '/message', json_data, headers)
     except ConnectionRefusedError as e:
-        UndeliveredMessages.saveUndeliveredMessage(message)
+        undeliveredMessages.saveUndeliveredMessage(message, receiver)
 
 
 def saveUser(user):

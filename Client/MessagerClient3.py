@@ -51,24 +51,24 @@ def receiveMessage():
 
 
 
+
+
 # TEST ===============================================================================
 
 # arros = User()
 # arros.setLogin('arros')
 # arros.setPort('8365')
 gorshok = Message()
-gorshok.setText('arr')
+gorshok.setText('arrrr')
 gorshok.setSender('uu')
 gorshok.setReceivers(['arros'])
 
-uu = User()
-uu.setLogin('uu')
-uu.setPort('8366')
+uu2 = User()
+uu2.setLogin('uu2')
+uu2.setPort('8367')
 
 
 with app.app_context():
-    enterOnline(json.dumps(uu.__dict__))
+    enterOnline(json.dumps(uu2.__dict__))
     # sendMessage(json.dumps(gorshok.__dict__))
-    # time.sleep(10)
-    # disconnect()
-app.run(port= 8366)
+app.run(port= 8367)

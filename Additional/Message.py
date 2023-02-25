@@ -16,7 +16,7 @@ class Message:
     def getSender(self):
         return self.__sender
 
-    def getReceiver(self):
+    def getReceivers(self):
         return self.__receivers
 
     def getText(self):
@@ -25,7 +25,7 @@ class Message:
     def setSender(self, sender):
         self.__sender = sender
 
-    def setReceiver(self, receivers):
+    def setReceivers(self, receivers):
         self.__receivers = receivers
 
     def setText(self, text):
