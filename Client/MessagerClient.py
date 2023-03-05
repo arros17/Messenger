@@ -8,6 +8,7 @@ from user import User
 from Message import Message
 from sv import Frontend
 from types import SimpleNamespace
+frontend = Frontend()
 
 
 app = Flask(__name__)
@@ -48,7 +49,7 @@ def receiveMessage():
     message.setText(x._Message__text)
     message.setReceivers(x._Message__receivers)
     message.setSender(x._Message__sender)
-    sv(message)
+    frontend.sv(message)
     print(message.getReceivers(), message.getSender(), message.getText())
     return jsonify(), 200
 
