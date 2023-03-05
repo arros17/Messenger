@@ -68,7 +68,7 @@ uu.setPort('8366')
 
 with app.app_context():
     enterOnline(json.dumps(uu.__dict__))
-    # sendMessage(json.dumps(gorshok.__dict__))
+    sendMessage(json.dumps(gorshok.__dict__))
     # time.sleep(10)
     # disconnect()
 app.run(port= 8366)
