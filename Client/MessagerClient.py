@@ -14,6 +14,10 @@ frontend = Frontend()
 app = Flask(__name__)
 myLogin = 'arros'
 
+firstWayTrain = ''
+secondeWayTrain = ''
+port = int(sys.argv[1])
+
 def sendMessage(message):
     connection = http.client.HTTPConnection('localhost', 5000, timeout=10)
     headers = {'Content-type': 'application/json'}
@@ -72,6 +76,6 @@ with app.app_context():
     # time.sleep(40)
     # sendMessage(json.dumps(gorshok.__dict__))
 
-app.run(port= 8365)
+app.run(port=port)
 
 # disconnect()

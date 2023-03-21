@@ -32,6 +32,7 @@ def redirectMessage():
     return jsonify(), 200
 
 
+
 @app.route('/connect', methods=['POST'])
 def userConnected():
     user = User()
